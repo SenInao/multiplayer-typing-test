@@ -1,4 +1,5 @@
 import os, threading, time
+import sys
 from pynput import keyboard
 from colorama import Fore
 
@@ -10,7 +11,7 @@ class Speedtest():
         self.fails = 0 #Fail variabel
         self.answer = string #Progresjon variabel
         self.string = string #Orginal tekst variabel
-        self.wps = 0 #Hvor mange ord du har tastet
+        self.wpm = 0 #Hvor mange ord du har tastet
 
     def start(self): #Starter spillet
         print(self.answer)
@@ -20,8 +21,7 @@ class Speedtest():
 
         
     def process_press(self, keypress):
-        os.system("cls") #Clearer terminalen
-        if self.wps == 1: #hvis du har startet og skrive
+        if self.wpm == 1: #hvis du har startet og skrive
             thread = threading.Thread(target=self.timer) #Lager thread
             thread.start() #Starter thread
 
@@ -43,14 +43,15 @@ class Speedtest():
         green_text = f"{Fore.GREEN + self.string.replace(self.answer, '')}" #Lager grønn progresjon
         white_text = f"{Fore.WHITE + self.answer}\n" #Lager hvit tekst
         arrow = f"{Fore.GREEN + arrow + Fore.WHITE}\n" #Lager grønn pil
-        WPM = f"WPM:{self.wps/self.tim}" #Lager Words per second tskt
+        WPM = f"WPM:{(self.wpm/self.tim * 60) / 4.7}" #Lager Words per second tskt
 
+        sys.stdout.write("\x1b[H")
         print(green_text + white_text + arrow + WPM) #Printer progresjonen
 
     def check_progress(self, keypress): #Sjekker progresjon og printer progresjon
         if keypress == self.answer[0]: #Sjekker om keypress er riktig bokstav i setningen
             self.answer = self.answer[1:] #Tar vekk første bokstav
-            self.wps += 1 #Plusser på en på antall klikk
+            self.wpm += 1 #Plusser på en på antall klikk
         elif keypress != "noe": #Hvis keypress er en bokstav og feil
             self.fails+=1 
         if not self.answer: #Hvis du har fullført setningen da er self.answer ""

@@ -51,14 +51,16 @@ def recieve(participants): #Får information fra "participants"
 
 connections = [] #liste over folk som er connecta til serveren
 
-IP = "xxx.xxx.xxx"
+IP = "localhost"
 PORT = 8888
 listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Lager en socket
 listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #Setter instillingene
 listener.bind((IP, PORT))
 listener.listen(0) #Lytter på ipeen og porten
 
-thread = threading.Thread(target=listen) 
-thread.start()
+thread1 = threading.Thread(target=listen) 
 thread = threading.Thread(target=matchmaking)
+thread1.start()
 thread.start()
+thread.join()
+thread1.join()

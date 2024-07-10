@@ -6,7 +6,7 @@ print("Velkommen til BATTLETYPER") #Printer velkommen tekst
 time.sleep(2)
 os.system("cls") #Fjerner tekst fra terminal
 
-IP = "xxx.xxx.xxx"
+IP = "localhost"
 PORT = 8888
 connection.connect((IP, PORT)) #Prøver å connecte til ipeen og porten
 print("Matchmaking") #Venter på info fra serveren
